@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Читай-город | Самара</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { margin:0; padding:10px 0; background:var(--tg-theme-bg-color); color:var(--tg-theme-text-color); font-family:system-ui; }
+        h2 { text-align:center; margin:20px 0; }
+        .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:0 10px; max-width:420px; margin:0 auto; }
+        .book { background:var(--tg-theme-secondary-bg-color); border-radius:16px; padding:16px; text-align:center; }
+        .book img { width:100%; height:180px; object-fit:cover; border-radius:12px; }
+        .book div { margin:12px 0 10px; font-weight:600; font-size:15px; }
+        .btn { padding:11px 22px; background:#f8a818; color:white; border:none; border-radius:12px; font-weight:700; text-transform:uppercase; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <h2>Каталог книг</h2>
+    <div class="grid">
+        <div class="book">
+            <img src="https://content.img-gorod.ru/pim/products/images/94/c4/01975dc4-1e2c-7b2c-b482-8a99e02b94c4.jpg">
+            <div>Гордость и предубеждение</div>
+            <button class="btn" data-id="1">Подробнее</button>
+        </div>
+        <div class="book">
+            <img src="https://content.img-gorod.ru/pim/products/images/02/44/01998498-eeb3-7634-8064-83caf0450244.jpg">
+            <div>1984</div>
+            <button class="btn" data-id="2">Подробнее</button>
+        </div>
+        <div class="book">
+            <img src="https://content.img-gorod.ru/pim/products/images/62/a8/018f5cb0-84aa-78c9-a36c-9d49401462a8.jpg">
+            <div>Гарри Поттер</div>
+            <button class="btn" data-id="3">Подробнее</button>
+        </div>
+        <div class="book">
+            <img src="https://content.img-gorod.ru/pim/products/images/43/6f/0191b5fa-b44a-7ddd-abc9-69bb2670436f.jpg">
+            <div>Преступление и наказание</div>
+            <button class="btn" data-id="4">Подробнее</button>
+        </div>
+        <div class="book">
+            <img src="https://content.img-gorod.ru/pim/products/images/6a/d9/018fa1c2-2195-7e5a-ac96-9ec74f0b6ad9.jpg">
+            <div>Маленький принц</div>
+            <button class="btn" data-id="5">Подробнее</button>
+        </div>
+        <div class="book">
+            <img src="https://content.img-gorod.ru/pim/products/images/ff/7a/018fa152-93f5-7bbb-b00c-e7fe55c7ff7a.jpg">
+            <div>Понедельник начинается в субботу</div>
+            <button class="btn" data-id="6">Подробнее</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.MainButton.color = "#2cab37";
+        tg.MainButton.textColor = "#FFFFFF";
+
+        let selectedId = "";
+
+        document.querySelectorAll(".btn").forEach(btn => {
+            btn.onclick = () => {
+                selectedId = btn.dataset.id;
+                const title = btn.previousElementSibling.innerText;
+                tg.MainButton.setText(`Выбрана: ${title}`);
+                tg.MainButton.show();
+                tg.MainButton.offClick(); // на всякий случай
+                tg.MainButton.onClick(() => {
+                    tg.sendData(selectedId);
+                    tg.MainButton.hide();
+                });
+            };
+        });
+    </script>
+</body>
+</html>
